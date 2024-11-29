@@ -1,15 +1,21 @@
 # app/main.py
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from app.routes import task_routes, reminder_routes, user_routes, composite_routes
 
 app = FastAPI()
+import logging
+import time 
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Register routes
 app.include_router(task_routes.router, prefix="/tasks", tags=["Tasks"])
 app.include_router(reminder_routes.router,
                    prefix="/reminders", tags=["Reminders"])
 app.include_router(user_routes.router, prefix="/users", tags=["Users"])
+
 app.include_router(composite_routes.router,
                    prefix="/composite", tags=["Composite Operations"])
 
