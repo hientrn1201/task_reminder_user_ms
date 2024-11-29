@@ -1,8 +1,9 @@
 # app/main.py
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI,Request
 from app.routes import task_routes, reminder_routes, user_routes, composite_routes
-
+import logging
+import time
 app = FastAPI()
 import logging
 import time 
@@ -21,6 +22,10 @@ app.include_router(composite_routes.router,
 
 # Middleware to log requests before and after
 
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
