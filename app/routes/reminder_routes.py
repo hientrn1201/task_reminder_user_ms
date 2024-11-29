@@ -7,10 +7,20 @@ from app.utils.http_client import http_client
 router = APIRouter()
 
 
+
+@router.get("/upcoming")
+async def get_upcoming_reminders():
+    url = f"{settings.REMINDER_SERVICE_URL}/api/reminders/grouped"
+    res = await http_client.fetch(url)
+    return res
+
+
 @router.get("/{reminder_id}")
 async def get_reminder(reminder_id: int):
     url = f"{settings.REMINDER_SERVICE_URL}/reminders/{reminder_id}"
     return await http_client.fetch(url)
+
+
 
 
 @router.post("/")
