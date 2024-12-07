@@ -1,12 +1,14 @@
 # app/main.py
 
-from fastapi import FastAPI,Request
-from app.routes import task_routes, reminder_routes, user_routes, composite_routes
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from app.routes import task_routes, reminder_routes, user_routes, composite_routes, motivation_quote_routes
+from app.graphql.schema import schema as graphql_schema
+from strawberry.fastapi import GraphQLRouter
 import logging
 import time
 app = FastAPI()
-import logging
-import time 
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,6 +21,21 @@ app.include_router(user_routes.router, prefix="/users", tags=["Users"])
 
 app.include_router(composite_routes.router,
                    prefix="/composite", tags=["Composite Operations"])
+app.include_router(motivation_quote_routes.router,
+                   prefix="/quote", tags=["Quotes"])
+
+# Register GraphQL route
+graphql_app = GraphQLRouter(graphql_schema)
+app.include_router(graphql_app, prefix="/graphql")
+
+# Set up CORS for development
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Middleware to log requests before and after
 
@@ -26,6 +43,7 @@ app.include_router(composite_routes.router,
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
