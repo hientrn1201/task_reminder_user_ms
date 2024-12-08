@@ -42,13 +42,13 @@ class ReminderType:
 class Query:
     @strawberry.field
     async def get_user(self, user_id: int) -> UserType:
-        url = f"{settings.USER_SERVICE_URL}/user?user_id={user_id}"
+        url = f"{settings.USER_SERVICE_URL}/users/{user_id}"
         user_data = await http_client.fetch(url)
         return UserType(**user_data)
 
     @strawberry.field
     async def get_tasks(self, user_id: int, page: int = 1, size: int = 10) -> List[TaskType]:
-        url = f"{settings.TASK_SERVICE_URL}/tasks/?user_id={user_id}&page={page}&size={size}"
+        url = f"{settings.TASK_SERVICE_URL}/tasks?user_id={user_id}"
         task_data = await http_client.fetch(url)
 
         # Log the task_data to verify the response
