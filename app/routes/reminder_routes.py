@@ -17,7 +17,7 @@ async def get_upcoming_reminders():
 
 @router.get("/{reminder_id}")
 async def get_reminder(reminder_id: int):
-    url = f"{settings.REMINDER_SERVICE_URL}/reminders/{reminder_id}"
+    url = f"{settings.REMINDER_SERVICE_URL}/api/reminders/{reminder_id}"
     return await http_client.fetch(url)
 
 
@@ -25,5 +25,5 @@ async def get_reminder(reminder_id: int):
 
 @router.post("/")
 async def create_reminder(reminder_data: dict):
-    url = f"{settings.REMINDER_SERVICE_URL}/reminders"
+    url = f"{settings.REMINDER_SERVICE_URL}/api/reminders"
     return await http_client.fetch(url, method="POST", json_data=reminder_data)

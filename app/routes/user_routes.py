@@ -9,14 +9,15 @@ router = APIRouter()
 
 @router.get("/{user_id}")
 def get_user(user_id: int):
-    url = f"{settings.USER_SERVICE_URL}/users/{user_id}"
+    url = f"{settings.USER_SERVICE_URL}/api/users/{user_id}"
+    print(url)
     # DUMMY var I used so I don't have to set up user microservice
-    # js = {
-    #     'user_id': '123',
-    #     'username': 'Nguyen',
-    #     'email': 'nqt2001@columbia.edu',
-    # }
-    # return js
+    js = {
+        'user_id': '123',
+        'username': 'Nguyen',
+        'email': 'nqt2001@columbia.edu',
+    }
+    print(js)
 
     try:
         response = requests.get(url)  # Synchronous GET request
