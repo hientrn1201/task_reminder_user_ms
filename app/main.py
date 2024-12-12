@@ -2,11 +2,16 @@
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import task_routes, reminder_routes, user_routes, composite_routes, motivation_quote_routes
+from app.routes import task_routes, reminder_routes, user_routes, composite_routes, motivation_quote_routes, auth_routes
 from app.graphql.schema import schema as graphql_schema
 from strawberry.fastapi import GraphQLRouter
 import logging
 import time
+import os
+
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+
 app = FastAPI()
 
 
@@ -18,6 +23,7 @@ app.include_router(task_routes.router, prefix="/tasks", tags=["Tasks"])
 app.include_router(reminder_routes.router,
                    prefix="/reminders", tags=["Reminders"])
 app.include_router(user_routes.router, prefix="/users", tags=["Users"])
+app.include_router(auth_routes.router, tags=["Auth"])
 
 app.include_router(composite_routes.router,
                    prefix="/composite", tags=["Composite Operations"])
