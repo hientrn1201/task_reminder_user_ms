@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import task_routes, reminder_routes, user_routes, composite_routes, motivation_quote_routes
+from app.routes import task_routes, reminder_routes, user_routes, composite_routes, motivation_quote_routes,publisher_routes
 from app.graphql.schema import schema as graphql_schema
 from strawberry.fastapi import GraphQLRouter
 import logging
@@ -23,7 +23,7 @@ app.include_router(composite_routes.router,
                    prefix="/composite", tags=["Composite Operations"])
 app.include_router(motivation_quote_routes.router,
                    prefix="/quote", tags=["Quotes"])
-
+app.include_router(publisher_routes.router,prefix='/publisher',tags=["publishing"])
 # Register GraphQL route
 graphql_app = GraphQLRouter(graphql_schema)
 app.include_router(graphql_app, prefix="/graphql")
